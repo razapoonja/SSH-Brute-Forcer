@@ -1,0 +1,18 @@
+# Usage:  ./ssh.exp <host> <user> <password> 
+
+#!/usr/bin/expect
+
+set host [lrange $argv 0 0]
+set user [lrange $argv 1 1]
+set pass [lrange $argv 2 2]
+
+eval spawn ssh $user@$host
+
+set prompt ":|#|\\\$"
+interact -o -nobuffer -re $prompt return
+send "$pass\r"
+interact -o -nobuffer -re $prompt return
+send "whoami\r"
+interact -o -nobuffer -re $prompt return
+send "exit\r"
+interact
